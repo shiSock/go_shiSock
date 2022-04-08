@@ -1,4 +1,4 @@
-# goshiSock
+# go_shiSock
 
 ### Golang utility for shiSock Engine
 
@@ -6,7 +6,7 @@ This utility can be used to interacte with shiSock Engine. This package comes wi
 
 ## Usage:
 Installation : From the root directory of project run 
-`go get github.com/shiSock/goshiSock`
+`go get github.com/shiSock/go_shiSock`
 
 ### Server Example
 
