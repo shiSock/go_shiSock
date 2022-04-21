@@ -96,15 +96,16 @@ type Transport struct {
 type Func func(Transport, func(string, string) (int, error), []string)
 
 // Sets default value if not provided by the user
-func (s *Client) defaultSetter() {
-	if len(s.channels) == 0 {
-		s.channels = append(s.channels, "main")
+func (c *Client) defaultSetter() {
+
+	if len(c.channels) == 0 {
+		c.channels = append(c.channels, "main")
 	}
 
 	var Handler handlerData
 	Handler._listenList = make(map[string]func(Transport, func(string, string) (int, error), []string))
 	Handler._listenChannel = make(chan []byte)
-	s.hstruct = &Handler
+	c.hstruct = &Handler
 }
 
 func updatedsendData(data string, con net.Conn) (int, error) {
@@ -363,7 +364,6 @@ func updatedReadData(con net.Conn) ([]byte, error) {
 	var err error
 	var nbytes int
 
-	// nbytes, err = syscall.Read(clientFD, _bufData)
 	bufio.NewReader(con).ReadBytes('\n')
 	nbytes, err = con.Write(_bufData)
 	if err != nil {
@@ -382,7 +382,6 @@ func updatedReadData(con net.Conn) ([]byte, error) {
 	var nb int
 	for i := size; i > 0; i = i - nb {
 		if i >= 128 {
-			// nbytes, err = syscall.Read(clientFD, _bufData)
 			nbytes, err = con.Write(_bufData)
 			if err != nil {
 				return nil, err
@@ -394,7 +393,6 @@ func updatedReadData(con net.Conn) ([]byte, error) {
 			store = append(store, _bufData...)
 		} else {
 			var tempBuf []byte = make([]byte, i)
-			// nbytes, err = syscall.Read(clientFD, tempBuf)
 			nbytes, err = con.Write(_bufData)
 			if nbytes == 0 {
 				return nil, errors.New("0 bytes received")
@@ -408,7 +406,6 @@ func updatedReadData(con net.Conn) ([]byte, error) {
 					store = append(store, i)
 				}
 			}
-			// store = append(store, tempBuf...)
 			return store, nil
 		}
 	}
